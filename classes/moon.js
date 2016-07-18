@@ -1,15 +1,17 @@
-function Comet(){
-	this.pos = new vector(Math.random()*1000+1000,0).rotate(Math.random()*360);
-	this.dir = this.pos.multiply(-1);
-	this.speed = 4;
+function Moon(){
+	this.pos = new vector(0,0);
+	this.speed = 0.07;
 	this.radius = 10;
+	this.a = 100;
+	this.b = 80;
+	this.t = 0;
 	
 	this.power = 10;
 	this.health = 10;
 
 	this.createBody = function(){
 		this.body = document.createElement('div');
-		this.body.className = 'comet';
+		this.body.className = 'moon';
 		document.body.appendChild(this.body);
 		return this.body;
 	}
@@ -24,7 +26,10 @@ function Comet(){
 	}	
 
 	this.move = function(){
-		this.pos = this.pos.addVector(this.dir.normalize().multiply(this.speed));
+		this.t += this.speed;
+		this.pos.x = this.a * Math.cos(this.t)+30;
+		this.pos.y = this.b * Math.sin(this.t);
+		console.log(this.t);
 	}
 
 	this.createBody();

@@ -19,8 +19,8 @@ function Rocket(){
 	}
 
 	this.draw = function(){
-		this.body.style.left = earth.offsetLeft + this.pos.x + (earth.offsetWidth - this.body.offsetWidth)/2 + 'px';
-		this.body.style.top = earth.offsetTop + this.pos.y  + 'px';
+		this.body.style.left = earth.offsetLeft + this.pos.x + earth.offsetWidth/2 + 'px';
+		this.body.style.top = earth.offsetTop + this.pos.y  + earth.offsetWidth/2 + 'px';
 	}	
 
 	this.move = function(){

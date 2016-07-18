@@ -2,13 +2,14 @@ html{
 	overflow:  hidden;
 }
 body{
-	
+	background: url(sprites/brillant.png);	
+	/*background: #aaa;*/
 }
 
 #earth{
-	/*background: rgba(0,100,0,0.5);*/
 	background: url(sprites/earth.png);
 	background-size: 100%;
+	opacity:  1;
 	display: inline-block;
 	position: absolute;
 	width: 50px;
@@ -23,11 +24,11 @@ body{
 .rocket{
 	background: rgba(0,100,0,0.7);
 	display: inline-block;
-	position: relative;
+	position: absolute;
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	left: 50%;
+	left: 0;
 	top: -2000px;
 	margin: -10px -10px;
 	z-index: 1;
@@ -36,7 +37,7 @@ body{
 	background: url(sprites/comet2.png);
 	background-size: 100%;
 	display: inline-block;
-	position: relative;
+	position: absolute;
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
@@ -44,4 +45,63 @@ body{
 	top: -2000px;
 	margin: -10px -10px;
 	z-index: 1;
+}
+
+.boom{
+	background: url(sprites/boom2.png);
+	background-size: 100%;
+	display: inline-block;
+	position: absolute;
+	width: 59px;
+	height: 43px;
+	left: 50%;
+	z-index: 3;
+	margin: -20px -30px;
+}
+
+.oops{
+	background: url(sprites/oops1.gif);
+	background-size: 100%;
+	display: inline-block;
+	position: absolute;
+	width: 48px;
+	height: 36px;
+	margin: -18px -24px;
+	left: 50%;
+	z-index: 3;
+}
+
+.moon{
+	background: url(sprites/moon.png);
+	background-size: 100%;
+	opacity:  1;
+	display: inline-block;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	left: 45%;
+	top: 50%;
+	margin: -12px -12px;
+	border: 1px solid #fff;
+	z-index: 2;
+}
+
+#GameOver{
+	display: none;
+	background: rgba(0,0,0,0.4);
+	position: absolute;
+	font-size: 50px;
+	color: #FFF;
+	text-align: center;
+	user-select: none;
+	line-height: 2.4em;
+	width: 270px;
+	height: 130px;
+	left: 50%;
+	top: 50%;
+	margin : -65px -130px;
+
+	border-radius: 3px;
+	z-index: 5;
 }

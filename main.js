@@ -3,20 +3,62 @@ var field = {
 	height:2000,
 }
 
-var earth = document.querySelector('#earth');
-earth.pos = new vector(0,0);
-earth.radius = 25;
-earth.health = 100;
+var earth;
+var moon;
 
 var comets = [];
 var rockets = [];
 
-const ROCKET_ATTACK_RANGE = 2000;
-const COMMET_VISIBILITY = 2500;
+const ROCKET_ATTACK_RANGE = 1000;
+const COMET_VISIBILITY = 2500;
 
-		var c = new Comet();
+var intervalId;
+
+function startGame(){
+	earth = document.querySelector('#earth');
+	earth.pos = new vector(0,0);
+	earth.radius = 25;
+	earth.health = 10;
+	
+	comets = [];
+	rockets = [];
+	//moon = new Moon();
+
+
+	intervalId = setInterval(Process,50);
+
+	addEventListener("click",function(e){
+		if(rockets.length > 12)
+			return;
+		var dx = e.pageX - earth.offsetLeft;
+		var dy = e.pageY - earth.offsetTop;
+		var r = new Rocket();
+		r.dir = new vector(dx,dy);
+		r.speed = 4;
+
+		rockets.push(r)
+	})
+}
+
+
+function gameOver(){
+	console.log('GameOver');
+	clearInterval(intervalId);
+	document.querySelector('#GameOver').style.display = 'inline-block';
+	var f = function(){
+		for(var i=0;i<comets.length;i++)
+			comets[i].remove();
+		for(var i=0;i<rockets.length;i++)
+			rockets[i].remove();
+		document.querySelector('#GameOver').style.display = 'none';
+		removeEventListener("click",f);
+		startGame();
+	}
+	addEventListener("click",f)
+}
+
 function Process(){
-	if(comets.length < 1){
+	if(comets.length < 10){
 		comets.push(new Comet());
 	}
 
@@ -35,14 +77,18 @@ function Process(){
 	for(var i = 0;i < comets.length; i++){
 		var comet = comets[i];
 		comet.move();
-		if (comet.pos.length > COMMET_VISIBILITY)
+		if (comet.pos.length > COMET_VISIBILITY)
 		{	
 			comet.remove();
-			commets.splice(i--,1);
+			comets.splice(i--,1);
 		}	
 		comet.draw();
 	}
 
+	if(moon != null){
+		moon.move();
+		moon.draw();
+	}
 	a1:for(var i = 0;i < comets.length; i++){
 		var comet = comets[i];
 		for(var j = 0;j < rockets.length; j++){
@@ -51,6 +97,11 @@ function Process(){
 			{
 				comet.health -= rckt.power;
 				rckt.health -= comet.power;
+				var b = new Boom(comet.pos.x,comet.pos.y,1000);
+				b.draw();
+				setTimeout(function(){
+					b.remove();
+				},b.lifetime);
 				if(rckt.health < 1){
 					rckt.remove();
 					rockets.splice(j--,1);
@@ -64,6 +115,11 @@ function Process(){
 		}
 		if(intersection(comet,earth)){
 			earth.health -= comet.power;
+			var o = new Oops(comet.pos.x,comet.pos.y,1000);
+			o.draw();
+			setTimeout(function(){
+				o.remove();
+			},o.lifetime);
 			comet.remove();
 			comets.splice(i--,1);
 		}
@@ -73,25 +129,10 @@ function Process(){
 		gameOver();
 }
 
-function gameOver(){
-	console.log('GameOver');
-	clearInterval(intervalId);
-}
-
 function intersection(a,b){
 	if(a.pos.minusVector(b.pos).length()< b.radius + a.radius)
 		return true;
 	return false;
 }
 
-var intervalId = setInterval(Process,50);
-
-addEventListener("click",function(e){
-	var dx = e.pageX - earth.offsetLeft;
-	var dy = e.pageY - earth.offsetTop;
-	var r = new Rocket();
-	r.dir = new vector(dx,dy);
-	r.speed = 4;
-
-	rockets.push(r)
-})
+startGame();

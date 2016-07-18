@@ -1,15 +1,12 @@
-function Comet(){
-	this.pos = new vector(Math.random()*1000+1000,0).rotate(Math.random()*360);
-	this.dir = this.pos.multiply(-1);
-	this.speed = 4;
-	this.radius = 10;
-	
-	this.power = 10;
-	this.health = 10;
+function Oops(x,y,t){
+	if(isNaN(x+y)) this.pos = new vector(2000,0);
+	else this.pos = new vector(x,y);
+	if(isNaN(t))	this.lifetime = 2000;
+	else this.lifetime = t;
 
 	this.createBody = function(){
 		this.body = document.createElement('div');
-		this.body.className = 'comet';
+		this.body.className = 'oops';
 		document.body.appendChild(this.body);
 		return this.body;
 	}
@@ -22,10 +19,6 @@ function Comet(){
 		this.body.style.left = earth.offsetLeft + this.pos.x + earth.offsetWidth/2 + 'px';
 		this.body.style.top = earth.offsetTop + this.pos.y  + earth.offsetWidth/2 + 'px';
 	}	
-
-	this.move = function(){
-		this.pos = this.pos.addVector(this.dir.normalize().multiply(this.speed));
-	}
 
 	this.createBody();
 }
