@@ -11,14 +11,20 @@ var rockets = [];
 
 const ROCKET_ATTACK_RANGE = 1000;
 const COMET_VISIBILITY = 2500;
+const MAX_HELATH = 100;
+var maxCommetsCount = 20;
 
+var score = 0;
+var canShoot = true;
 var intervalId;
 
 function startGame(){
 	earth = document.querySelector('#earth');
 	earth.pos = new vector(0,0);
 	earth.radius = 25;
-	earth.health = 10;
+	earth.health = MAX_HELATH;
+	
+	score = 0;
 	
 	comets = [];
 	rockets = [];
@@ -27,17 +33,7 @@ function startGame(){
 
 	intervalId = setInterval(Process,50);
 
-	addEventListener("click",function(e){
-		if(rockets.length > 12)
-			return;
-		var dx = e.pageX - earth.offsetLeft;
-		var dy = e.pageY - earth.offsetTop;
-		var r = new Rocket();
-		r.dir = new vector(dx,dy);
-		r.speed = 4;
-
-		rockets.push(r)
-	})
+	addEventListener("click",addRocket);
 }
 
 
@@ -45,6 +41,7 @@ function gameOver(){
 	console.log('GameOver');
 	clearInterval(intervalId);
 	document.querySelector('#GameOver').style.display = 'inline-block';
+	removeEventListener("click",addRocket);
 	var f = function(){
 		for(var i=0;i<comets.length;i++)
 			comets[i].remove();
@@ -58,7 +55,7 @@ function gameOver(){
 }
 
 function Process(){
-	if(comets.length < 10){
+	if(comets.length < maxCommetsCount){
 		comets.push(new Comet());
 	}
 
@@ -134,5 +131,22 @@ function intersection(a,b){
 		return true;
 	return false;
 }
+
+var addRocket = function(e){
+		if(!canShoot)
+			return;
+		var dx = e.pageX - earth.offsetLeft;
+		var dy = e.pageY - earth.offsetTop;
+		var r = new Rocket();
+		r.dir = new vector(dx,dy);
+		r.speed = 4;
+
+		rockets.push(r)
+
+		canShoot = false;
+		setTimeout(function(){
+			canShoot = true;
+		},300)
+	}
 
 startGame();

@@ -22,7 +22,7 @@ body{
 }
 
 .rocket{
-	background: rgba(0,100,0,0.7);
+	background: rgba(0,166,81,1);
 	display: inline-block;
 	position: absolute;
 	width: 20px;
@@ -104,4 +104,25 @@ body{
 
 	border-radius: 3px;
 	z-index: 5;
+}
+
+#earthHP{
+	display: inline-block;
+	background: rgba(0,0,0,0.0);
+	position: absolute;
+	width: 153px;
+	height: 23px;
+	right: 30px;
+	top: 	13px;
+	border-radius: 4px;
+	border: 2px solid #aaa
+}
+
+.state{
+	display: inline-block;
+	background: rgba(0,0,255,0.4);
+	position: relative;
+	width: 100px;
+	height: 23px;
+	border-radius: 1px;
 }
